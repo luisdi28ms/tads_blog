@@ -1,18 +1,18 @@
 [
   {
     "path": "posts/welcome/",
-    "title": "Welcome to The Amazing Data-Scientist",
-    "description": "Welcome to our new blog, The Amazing Data-Scientist. We hope you enjoy \nreading what we have to say!",
+    "title": "Hello world!",
+    "description": "Welcome to my new blog, The Amazing Data-Scientist. I hope you find\ninteresting content from you friendly neighbor data scientist.",
     "author": [
       {
-        "name": "Nora Jones",
-        "url": "https://example.com/norajones"
+        "name": "Luis Monge",
+        "url": "https://twitter.com/luisdi28"
       }
     ],
     "date": "2020-08-21",
     "categories": [],
     "preview": {},
-    "last_modified": "2020-08-21T05:53:26-06:00",
+    "last_modified": "2020-08-21T09:48:42-06:00",
     "input_file": {}
   }
 ]
