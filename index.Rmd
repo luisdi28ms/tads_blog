@@ -1,5 +1,6 @@
 ---
-title: "The Amazing Data-Scientist"
+title: ""
 site: distill::distill_website
 listing: posts
 ---
+![Just a leap of faith](images/leap_of_faith.jpg)
