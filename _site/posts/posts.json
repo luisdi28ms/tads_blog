@@ -2,17 +2,17 @@
   {
     "path": "posts/welcome/",
     "title": "Hello world!",
-    "description": "Welcome to my new blog, The Amazing Data-Scientist.",
+    "description": "Bienvenidos a mi blog, The Amazing Data-Scientist. Aquí pueden encontrar\nlas razones por las que comencé este proyecto y qué pueden esperar de las\npróximas publicaciones.",
     "author": [
       {
         "name": "Luis Monge",
         "url": "https://twitter.com/luisdi28"
       }
     ],
-    "date": "2020-08-30",
+    "date": "2020-09-02",
     "categories": [],
-    "preview": "posts/welcome/leap_of_faith.jpg",
-    "last_modified": "2020-09-02T16:36:45-06:00",
-    "input_file": "welcome.utf8.md"
+    "preview": "posts/welcome/welcome_files/figure-html5/unnamed-chunk-1-1.png",
+    "last_modified": "2020-09-02T22:26:20-06:00",
+    "input_file": {}
   }
 ]
