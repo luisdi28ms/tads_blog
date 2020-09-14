@@ -1,5 +1,21 @@
 [
   {
+    "path": "posts/2020-09-12-mi-primer-tidytuesday-con-los-datos-de-la-serie-friends/",
+    "title": "Mi primer #tidytuesday con los datos de Friends",
+    "description": "En esta semana les presento uno de los elementos más comunes que pueden \nesperar de este blog, visualizaciones de datos sobre temas entretenidos como \nla exitosa serie de televisión Friends.",
+    "author": [
+      {
+        "name": "Luis Monge",
+        "url": "https://twitter.com/luisdi28"
+      }
+    ],
+    "date": "2020-09-12",
+    "categories": [],
+    "preview": "https://s3.amazonaws.com/images.seroundtable.com/friends-1568977438.jpg",
+    "last_modified": "2020-09-13T21:16:14-06:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/welcome/",
     "title": "Hello world!",
     "description": "Bienvenidos a mi blog, The Amazing Data-Scientist. Aquí pueden encontrar\nlas razones por las que comencé este proyecto y qué pueden esperar de las\npróximas publicaciones.",

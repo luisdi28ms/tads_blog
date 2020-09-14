@@ -1,0 +1,165 @@
+---
+title: "Mi primer #tidytuesday con los datos de Friends"
+description: |
+  En esta semana les presento uno de los elementos más comunes que pueden 
+  esperar de este blog, visualizaciones de datos sobre temas entretenidos como 
+  la exitosa serie de televisión Friends.
+author:
+  - name: Luis Monge
+    url: https://twitter.com/luisdi28
+date: 09-12-2020
+preview: https://s3.amazonaws.com/images.seroundtable.com/friends-1568977438.jpg
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+![](https://s3.amazonaws.com/images.seroundtable.com/friends-1568977438.jpg){width=50%}
+
+Para esta semana tenemos 3 tablas con datos sobre la serie. Voy a diseñar 
+un gráfico para cada una de las tablas y les dejo el código para que puedan 
+replicarlo.
+
+#### Cargar paquetes y datos
+
+```{r}
+library(tidyverse)
+library(tidytuesdayR)
+library(glue)
+
+tt <- tt_load("2020-09-08")
+```
+
+#### friends_info
+
+Esta tabla contiene todos los episodios con la cantidad de US views y el
+imdb rating. Me interesa conocer cómo varia el rating de los episodios a lo largo
+de las temporadas.
+
+```{r}
+episodios <- tt$friends_info %>% 
+  mutate(full_title = glue("{ season }.{ episode } {title}"),
+         full_title = fct_reorder(full_title, season + .001 * episode),
+         season = as.factor(season))
+
+friends_colors <- c(rep(c("#FF4238", "#FFDC00", "#42A2D6", 
+                        "#9A0006", "#FFF580", "#00009E"),
+                      39),"#FF4238", "#FFDC00")
+
+names(friends_colors) = levels(as.factor(episodios$season))
+
+
+graph_1 <- function(episodios, temporadas){
+episodios %>% 
+    filter(season %in% temporadas) %>% 
+    ggplot(aes(x = as.integer(full_title), 
+               y = imdb_rating,
+               label = title,
+               color = as.factor(episode))) +
+    geom_line(color = "black",
+              alpha = 0.6) +
+    geom_point() +
+    geom_text(color = "white",
+              size = 2,
+              vjust = -1,
+              check_overlap = TRUE) +
+    facet_wrap(~glue("Temporada { str_pad(season, 2, 'left', 0) }"), 
+               scales = "free_x") +
+    theme_dark() +
+    labs(y = "",
+         x = "Número de episodio") +
+    scale_color_manual(values = friends_colors, drop = FALSE)+
+    theme(legend.position = "none",
+          axis.ticks.x = element_blank(),
+          plot.background = element_rect(fill = "black"),
+          axis.title.x = element_text(colour = "white"))
+}
+```
+
+### FRIENDS: Rating del episodio por temporada
+
+```{r, echo = FALSE}
+graph_1(episodios, 1:2)
+graph_1(episodios, 3:4)
+graph_1(episodios, 5:6)
+graph_1(episodios, 7:8)
+graph_1(episodios, 9:10)
+```
+
+#### friends_emotions
+
+Nunca he sido muy fan de Friends pero por suerte tengo una amiga muy fiebre que 
+me compartió cuáles eran sus episodios favoritos:
+
+- The One with the Embryos
+- The One with the Cake
+
+La tabla friends_emotions contiene las emociones para cada una de las escenas
+de los episodios en las primeras 4 temporadas, lastimosamente "The One with the
+Cake" pertence a la última temporada. Veamos cómo se distribuyen las emociones 
+para el episodio "The One with the Embryos". ¿Tendrá una distribución distinta
+a los demás episodios?
+
+```{r}
+the_embryos <- tt$friends_emotions %>% 
+  inner_join(tt$friends_info %>% 
+              filter(title == "The One with the Embryos") %>%
+              select(season, episode, title), by = c("season", "episode"))
+
+friends_colors <- c("#FF4238", "#FFDC00", "#42A2D6", 
+                    "#9A0006", "#FFF580", "#00009E", "#9A0006")
+
+names(friends_colors) = levels(as.factor(the_embryos$emotion))
+
+graph <- the_embryos %>% 
+  count(emotion) %>% 
+  mutate(emotion_perc = n/sum(n)) %>% 
+  ggplot(aes(x = emotion, y = emotion_perc, fill = emotion)) +
+  geom_col()+
+  theme_dark() +
+  labs(y = "",
+       x = "",
+       title = "Distribución de sentimientos para el episodio The one with the Embryos") +
+  scale_fill_manual(values = friends_colors, drop = FALSE)+
+  ylim(0,1)+
+  theme(legend.position = "none",
+        title = element_text(colour = "white"),
+        plot.background = element_rect(fill = "black"),
+        axis.title.x = element_text(colour = "white"),
+        axis.text = element_text(colour = "white"))
+```
+
+```{r, echo=FALSE}
+graph
+```
+
+```{r, echo=FALSE}
+tt$friends_emotions %>% 
+  count(emotion) %>% 
+  mutate(emotion_perc = n/sum(n)) %>% 
+  ggplot(aes(x = emotion, y = emotion_perc, fill = emotion)) +
+  geom_col()+
+  theme_dark() +
+  ylim(0,1)+
+  labs(y = "",
+       x = "",
+       title = "Distribución de sentimientos de todos los episodios") +
+  scale_fill_manual(values = friends_colors, drop = FALSE)+
+  theme(legend.position = "none",
+        title = element_text(colour = "white"),
+        plot.background = element_rect(fill = "black"),
+        axis.title.x = element_text(colour = "white"),
+        axis.text = element_text(colour = "white"))
+
+```
+
+La última tabla contiene los diálogos de cada una de las escenas de todas las
+temporadas de la serie. Esta semana no tuve chance de hacer algo con esa info
+pero lo retomaré en un futuro cuando tenga más experiencia sobre el 
+procesamiento y análisis de texto.
+
+

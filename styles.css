@@ -120,4 +120,5 @@ d-code {
   background: #F5F5F5;
   font-weight: 400;
   font-size: 0.9em;
+  overflow-x: auto !important;
 }
